@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+</head>
+
+<body>
+    <h1>All posts</h1>
+    <div>
+        <a href="/posts/new">Add post</a>
+    </div>
+    <ul>
+        <% for (let post of posts) { %>
+            <li>
+                <img src="<%= post.imageUrl %>" alt="Post Image" style="height: 50px; width: 50px;">
+                <p><%= post.caption %></p>
+            </li>
+        <% } %>
+    </ul>
+    
+</body>
+
+</html>

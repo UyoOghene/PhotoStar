@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Create new post</title>
+</head>
+
+<body>
+    <form action="/posts" method="POST">
+        <div>
+            <label for="imageUrl">image</label>
+            <input type="text" id="imageUrl" name="post[imageUrl]">
+        </div>
+        <div>
+            <label for="caption">Caption</label>
+            <input type="text" id="caption" name="post[caption]">
+        </div>
+        <button>Add Post</button>
+    </form>
+    <a href="/campgrounds">All Campgrounds</a>
+
+</body>
+
+</html>

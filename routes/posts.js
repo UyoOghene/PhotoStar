@@ -4,23 +4,31 @@ const Post = require("../models/post");
 
 // Show all posts
 router.get("/", async (req, res) => {
+    const posts = await Post.find({});
 //   const posts = await Post.find().populate("author");
-//   res.render("posts/index", { posts });
-res.send('home')
+  res.render("../views/posts/index", { posts });
+// res.send('home')
 });
 
 // // Show form to create a new post
-// router.get("/new", (req, res) => res.render("posts/new"));
-router.get("/new", (req, res) =>res.send('new post')
+router.get("/new", (req, res) =>
+    res.render('../views/posts/new.ejs')
+
 );
 
-// // Create a new post
-// router.post("/", async (req, res) => {
-//   const { imageUrl, caption } = req.body;
-//   const newPost = new Post({ imageUrl, caption, author: req.user._id });
-//   await newPost.save();
-//   res.redirect("/posts");
+
+// router.get('/:id', async (req, res,) => {
+//     const post = await Post.findById(req.params.id)
+//     res.render('views/show', { post });
 // });
+
+// Create a new post
+router.post("/", async (req, res) => {
+  const { imageUrl, caption } = req.body.post;
+  const newPost = new Post({ imageUrl, caption });
+  await newPost.save();
+  res.redirect("/posts");
+});
 
 // // Delete a post
 // router.delete("/:id", async (req, res) => {

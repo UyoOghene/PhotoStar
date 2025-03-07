@@ -38,7 +38,7 @@ app.use("/posts", postRoutes);
 // app.use("/", authRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Hello from YelpCamp');
+    res.send('Hello from photostar');
 });
 
 
