@@ -7,7 +7,6 @@ router.get("/", async (req, res) => {
     const posts = await Post.find({});
 //   const posts = await Post.find().populate("author");
   res.render("../views/posts/index", { posts });
-// res.send('home')
 });
 
 // // Show form to create a new post
@@ -17,10 +16,10 @@ router.get("/new", (req, res) =>
 );
 
 
-// router.get('/:id', async (req, res,) => {
-//     const post = await Post.findById(req.params.id)
-//     res.render('views/show', { post });
-// });
+router.get('/:id', async (req, res,) => {
+    const post = await Post.findById(req.params.id)
+    res.render('../views/posts/show.ejs', { post });
+});
 
 // Create a new post
 router.post("/", async (req, res) => {
@@ -30,10 +29,22 @@ router.post("/", async (req, res) => {
   res.redirect("/posts");
 });
 
-// // Delete a post
-// router.delete("/:id", async (req, res) => {
-//   await Post.findByIdAndDelete(req.params.id);
-//   res.redirect("/posts");
-// });
+router.get('/:id/edit', async (req, res) => {
+    const post = await Post.findById(req.params.id)
+    res.render('../views/posts/edit.ejs', { post });
+});
+
+router.put('/:id', async (req,res)=> {
+   const {id } = req.params;
+   const post = await Post.findByIdAndUpdate(id,{...req.body.post});
+   res.redirect(`/posts/${post._id}`)
+
+})
+
+// Delete a post
+router.delete("/:id", async (req, res) => {
+  await Post.findByIdAndDelete(req.params.id);
+  res.redirect("/posts");
+});
 
 module.exports = router;

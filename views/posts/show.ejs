@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post details</title>
+</head>
+<body>
+    <h1>view post</h1>
+    <div class="box">
+        <img src="<%= post.imageUrl %>" alt="">
+        <h1><%= post.caption %></h1>
+    </div>
+    <a href="/posts/<%= post._id %>/edit">Edit post</a>
+    <form action="/posts/<%= post._id %>?_method=DELETE" method="post">
+        <button>delete</button>
+    </form>
+</body>
+</html>

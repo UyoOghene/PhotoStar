@@ -16,7 +16,7 @@
         <% for (let post of posts) { %>
             <li>
                 <img src="<%= post.imageUrl %>" alt="Post Image" style="height: 50px; width: 50px;">
-                <p><%= post.caption %></p>
+                <p><a href="/posts/<%= post._id %>"><%= post.caption %></a></p>
             </li>
         <% } %>
     </ul>
