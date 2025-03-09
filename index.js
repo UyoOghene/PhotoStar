@@ -5,7 +5,7 @@ const passport = require("passport");
 const methodOverride = require("method-override");
 const ejsMate = require('ejs-mate');
 const path = require('path');
-
+const Post = require("./models/post");
 
 require("dotenv").config();
 
@@ -27,19 +27,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // Routes
 const postRoutes = require("./routes/posts");
-// const commentRoutes = require("./routes/comments");
-// const authRoutes = require("./routes/auth");
-
 app.use("/posts", postRoutes);
-// app.use("/comments", commentRoutes);
-// app.use("/", authRoutes);
 
+// Home route
 app.get('/', (req, res) => {
     res.send('Hello from photostar');
 });
 
+// Show form to create a new post
+app.get('/new', (req, res) => {
+    res.render('posts/new');
+});
+
+// Show edit form
+app.get('/posts/:id/edit', async (req, res) => {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+        return res.status(404).send("Post not found");
+    }
+    res.render('posts/edit', { post });
+});
 
 app.listen(3000, () => console.log("Server running on port 3000"));
