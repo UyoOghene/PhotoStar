@@ -2,7 +2,7 @@
 
 
 
-    <div class="container">
+    <div class="container mb-3">
     <h1>view post</h1>
     <a href="/posts">Bact to all posts</a>
     <div class="box">
@@ -11,8 +11,23 @@
     </div>
     <a href="/posts/<%= post._id %>/edit">Edit</a>
 
+    <h2>Leave a comment</h2>
+    <form action="/posts/<%= post._id %>/comments" method="post" class="validated-form" novalidate>
+        <div class="mb-3">
+            <label for="body" class="form-label" >Comment</label>
+            <textarea class="form-control"  name="comment[body]" id="body" cols="10" rows="3" required ></textarea>
+            <div class="valid-feedback">Looks Good</div>
+        </div>
+        <button class="btn btn-success" >Submit comment</button>
+    </form>
+
+
     <form action="/posts/<%= post._id %>?_method=DELETE" method="post">
         <button>delete</button>
     </form>
-
+    <% for (let comment of post.comments){ %>
+    <div class="mb-3">
+        <p><%= comment.body %></p>
+    </div>
+    <% } %>
     </div>
