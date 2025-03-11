@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') -%>
 
-
+    <div class="container">
     <h1>Edit post</h1>
     <form action="/posts/<%= post._id %>?_method=PUT" method="POST">
         <div>
@@ -15,4 +15,4 @@
     </form>
     <a href="/posts/<%= post._id  %>">Back to Post</a>
 
-
+    </div>

@@ -1,16 +1,46 @@
 <% layout('layouts/boilerplate') -%>
+<div class="container">
+<h1>New post</h1>
+<form action="/posts" method="POST" novalidate class="validated-form">
+    <div class="mb-3">
+        <label for="imageUrl" class="form-label">Image</label>
+        <input type="text" class="form-control" id="imageUrl" name="post[imageUrl]" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide an image URL.</div>
+    </div>
 
-    <h1>Add new Post</h1>
-    <form action="/posts" method="POST">
-        <div>
-            <label for="imageUrl">image</label>
-            <input type="text" id="imageUrl" name="post[imageUrl]">
-        </div>
-        <div>
-            <label for="caption">Caption</label>
-            <input type="text" id="caption" name="post[caption]">
-        </div>
-        <button>Add Post</button>
-    </form>
-    <a href="/posts">All Campgrounds</a>
+    <div class="mb-3">
+        <label for="caption" class="form-label">Caption</label>
+        <input type="text" class="form-control" id="caption" name="post[caption]" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please provide a caption.</div>
+    </div>
 
+    <button class="btn btn-primary" type="submit">Add Post</button>
+</form>
+</div>
+<script>
+(() => {
+    'use strict';
+
+    const forms = document.querySelectorAll('.validated-form');
+
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                const inputs = form.querySelectorAll('input');
+                inputs.forEach(input => {
+                    if (input.checkValidity()) {
+                        input.classList.add('is-valid'); // Add green feedback class
+                    }
+                });
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
+</script>
