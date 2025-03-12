@@ -60,6 +60,13 @@ router.post('/:id/comments', catchAsync(async(req, res) => {
     res.redirect(`/posts/${post._id}`);
 }));
 
+router.delete('/:id/comments/:commentid', catchAsync(async(req,res) => {
+    const { id, commentid } = req.params;
+    await Post.findByIdAndUpdate(id, { $pull: { comments: commentid } });
+    await Comment.findByIdAndDelete(commentid);
+    res.redirect(`/posts/${id}`);
+}));
+
 
 // Delete a post
 router.delete("/:id", catchAsync( async (req, res) => {
