@@ -15,6 +15,7 @@ router.get("/", catchAsync(async (req, res) => {
 // Show form to create a new post
 router.get('/new', (req, res) => {
   res.render('posts/new');
+  req.flash('success', 'Made a new Post')
 });
 
 // Show edit form
@@ -33,6 +34,7 @@ router.post("/", catchAsync( async (req, res) => {
     const { imageUrl, caption } = req.body.post;
     const newPost = new Post({ imageUrl, caption });
     await newPost.save();
+    req.flash('success', 'created  new post')
     res.redirect("/posts");
 }));
 
@@ -48,6 +50,8 @@ router.get('/:id', catchAsync(async (req, res) => {
 router.put('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
+    req.flash('success', 'updated post')
+
     res.redirect(`/posts/${post._id}`);
 }));
 
@@ -64,6 +68,8 @@ router.delete('/:id/comments/:commentid', catchAsync(async(req,res) => {
     const { id, commentid } = req.params;
     await Post.findByIdAndUpdate(id, { $pull: { comments: commentid } });
     await Comment.findByIdAndDelete(commentid);
+    req.flash('success', 'deleted comment')
+
     res.redirect(`/posts/${id}`);
 }));
 
@@ -71,6 +77,8 @@ router.delete('/:id/comments/:commentid', catchAsync(async(req,res) => {
 // Delete a post
 router.delete("/:id", catchAsync( async (req, res) => {
     await Post.findByIdAndDelete(req.params.id);
+    req.flash('success', 'deleted post')
+
     res.redirect("/posts");
 }));
 
