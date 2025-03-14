@@ -4,6 +4,7 @@ const Post = require("../models/post");
 const Comment = require('../models/comment');
 const catchAsync = require("../utilities/catchAsync");
 const ExpressError = require('../utilities/ExpressError');
+const { isLoggedIn } = require("../middleware");
 
 
 // Show all posts
@@ -13,13 +14,13 @@ router.get("/", catchAsync(async (req, res) => {
 }));
 
 // Show form to create a new post
-router.get('/new', (req, res) => {
+router.get('/new',isLoggedIn,(req, res) => {
   res.render('posts/new');
   req.flash('success', 'Made a new Post')
 });
 
 // Show edit form
-router.get('/:id/edit', catchAsync (async (req, res) => {
+router.get('/:id/edit',isLoggedIn, catchAsync (async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (!post) {
       return res.status(404).send("Post not found");
@@ -29,7 +30,7 @@ router.get('/:id/edit', catchAsync (async (req, res) => {
 
 
 // Create a new post
-router.post("/", catchAsync( async (req, res) => {
+router.post("/",isLoggedIn, catchAsync( async (req, res) => {
     if (!req.body.post) throw new ExpressError('Invalid post Data', 400);
     const { imageUrl, caption } = req.body.post;
     const newPost = new Post({ imageUrl, caption });
@@ -40,7 +41,7 @@ router.post("/", catchAsync( async (req, res) => {
 
 
 // Show a single post
-router.get('/:id', catchAsync(async (req, res) => {
+router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const post = await Post.findById(req.params.id).populate('comments'); // Ensure comments are populated
     res.render('posts/show', { post });
 }));
@@ -55,7 +56,7 @@ router.put('/:id', catchAsync(async (req, res) => {
     res.redirect(`/posts/${post._id}`);
 }));
 
-router.post('/:id/comments', catchAsync(async(req, res) => {
+router.post('/:id/comments',isLoggedIn, catchAsync(async(req, res) => {
     const post = await Post.findById(req.params.id).populate('comments')
     const comment = new Comment(req.body.comment)
     await comment.save();
@@ -64,7 +65,7 @@ router.post('/:id/comments', catchAsync(async(req, res) => {
     res.redirect(`/posts/${post._id}`);
 }));
 
-router.delete('/:id/comments/:commentid', catchAsync(async(req,res) => {
+router.delete('/:id/comments/:commentid',isLoggedIn, catchAsync(async(req,res) => {
     const { id, commentid } = req.params;
     await Post.findByIdAndUpdate(id, { $pull: { comments: commentid } });
     await Comment.findByIdAndDelete(commentid);
@@ -75,7 +76,7 @@ router.delete('/:id/comments/:commentid', catchAsync(async(req,res) => {
 
 
 // Delete a post
-router.delete("/:id", catchAsync( async (req, res) => {
+router.delete("/:id",isLoggedIn, catchAsync( async (req, res) => {
     await Post.findByIdAndDelete(req.params.id);
     req.flash('success', 'deleted post')
 
