@@ -6,8 +6,10 @@
     <h1>view post</h1>
     <a href="/posts">Bact to all posts</a>
     <div class="box">
-        <img src="<%= post.imageUrl %>" alt="">
+        <% for(let img of post.images ){ %>
+        <img src="<%= img.url %>" alt="Post Image" class="img-fluid">
         <h1><%= post.caption %></h1>
+        <% } %>
     </div>
     <a href="/posts/<%= post._id %>/edit">Edit</a>
 
@@ -25,12 +27,21 @@
     <form action="/posts/<%= post._id %>?_method=DELETE" method="post">
         <button class="btn btn-danger">delete</button>
     </form>
-    <% for (let comment of post.comments){ %>
-    <div class="mb-3">
-        <p><%= comment.body %></p>
-        <form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
-            <button class="btn btn-sm btn-danger">Delete</button>
-        </form>
-            </div>
+
+    <% for (let comment of post.comments) { %>
+        <div class="mb-3">
+            <p><%= comment.body %> by: 
+                <% if (comment.author) { %>
+                    <%= comment.author.username || comment.author.email %>
+                <% } else { %>
+                    [Deleted User] 
+                <% } %>
+            </p>
+            <li class="list-group-item">Submitted by <%= post.author.username %></li>
+            
+            <form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </div>
     <% } %>
-    </div>
+        </div>

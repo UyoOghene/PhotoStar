@@ -1,8 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const Post = require("../models/post");
+const Comment = require('../models/comment');
+const User = require('../models/user')
+const catchAsync = require("../utilities/catchAsync");
+const ExpressError = require('../utilities/ExpressError');
 const passport = require('passport');
-const catchAsync = require('../utilities/catchAsync')
-const User = require('../models/user');
+const LocalStrategy = require('passport-local').Strategy;
+const { isLoggedIn, isAuthor, isCommentAuthor, validatePost, validateComment } = require("../middleware");
 
 router.get('/register', (req, res) => {
     res.render('users/register');  // ✅ Correct path

@@ -1,13 +1,18 @@
 <% layout('layouts/boilerplate') -%>
 <div class="container">
 <h1>New post</h1>
-<form action="/posts" method="POST" novalidate class="validated-form">
-    <div class="mb-3">
+<form action="/posts" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+    <!-- <div class="mb-3">
         <label for="imageUrl" class="form-label">Image</label>
         <input type="text" class="form-control" id="imageUrl" name="post[imageUrl]" required>
         <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Please provide an image URL.</div>
+    </div> -->
+    <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="file" class="form-control" name="image" multiple required>
     </div>
+    
 
     <div class="mb-3">
         <label for="caption" class="form-label">Caption</label>

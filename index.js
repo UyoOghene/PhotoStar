@@ -1,3 +1,10 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
+console.log('Cloudinary Cloud Name:', process.env.CLOUDINARY_CLOUD_NAME);
+console.log('Secret:', process.env.SECRET);
+
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -8,10 +15,13 @@ const path = require('path');
 const Post = require("./models/post");
 const catchAsync = require('./utilities/catchAsync');
 const ExpressError = require('./utilities/ExpressError');
-const {isLoggedIn} = require('./middleware')
+const { isLoggedIn, isAuthor, isCommentAuthor, validatePost, validateComment } = require("./middleware");
 const flash = require('connect-flash');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
 
 require("dotenv").config();
 
