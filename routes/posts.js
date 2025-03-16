@@ -110,6 +110,26 @@ router.delete('/:id/comments/:commentId', isLoggedIn, isCommentAuthor, catchAsyn
     req.flash('success', 'Deleted comment');
     res.redirect(`/posts/${id}`);
 }));
+router.post('/:id/like', isLoggedIn, async (req, res) => {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+
+    if (!post) {
+        req.flash('error', 'Post not found.');
+        return res.redirect('/posts');
+    }
+
+    const likeIndex = post.likes.indexOf(req.user._id);
+    if (likeIndex === -1) {
+        post.likes.push(req.user._id);
+    } else {
+        post.likes.splice(likeIndex, 1);
+    }
+
+    await post.save();
+    res.redirect(`/posts/${id}`);
+});
+
 
 // Delete a post
 router.delete("/:id", isLoggedIn, isAuthor, catchAsync(async (req, res) => {

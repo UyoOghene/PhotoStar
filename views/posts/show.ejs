@@ -39,6 +39,12 @@
                 </button>
             <% } %>
         </div>
+        <form action="/posts/<%= post._id %>/like" method="POST" class="d-inline">
+            <button class="btn btn-outline-primary">
+                ❤️ Like (<%= post.likes.length %>)
+            </button>
+        </form>
+        
 
         <a href="/posts/<%= post._id %>/edit">Edit</a>
 
