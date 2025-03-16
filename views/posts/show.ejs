@@ -1,46 +1,76 @@
 <% layout('layouts/boilerplate') -%>
 
+<div class="container mb-3">
+    <h1>View Post</h1>
+    <a href="/posts">Back to all posts</a>
 
-
-    <div class="container mb-3">
-    <h1>view post</h1>
-    <a href="/posts">Bact to all posts</a>
     <div class="box">
-        <% for(let img of post.images ){ %>
-        <img src="<%= img.url %>" alt="Post Image" class="img-fluid">
-        <h1><%= post.caption %></h1>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+
+            <div class="carousel-indicators">
+                <% post.images.forEach((img, i) => { %>
+                    <button 
+                        type="button" 
+                        data-bs-target="#carouselExampleIndicators" 
+                        data-bs-slide-to="<%= i %>" 
+                        class="<%= i === 0 ? 'active' : '' %>" 
+                        aria-current="<%= i === 0 ? 'true' : 'false' %>" 
+                        aria-label="Slide <%= i + 1 %>">
+                    </button>
+                <% }) %>
+            </div>
+
+            <div class="carousel-inner">
+                <% post.images.forEach((img, i) => { %>
+                    <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                        <img src="<%= img.url %>" class="d-block w-100" alt="Post Image">
+                    </div>
+                <% }) %>
+            </div>
+
+            <% if (post.images.length > 1) { %>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            <% } %>
+        </div>
+
+        <a href="/posts/<%= post._id %>/edit">Edit</a>
+
+        <h2>Leave a comment</h2>
+        <form action="/posts/<%= post._id %>/comments" method="post" class="validated-form" novalidate>
+            <div class="mb-3">
+                <label for="body" class="form-label">Comment</label>
+                <textarea class="form-control" name="comment[body]" id="body" cols="10" rows="3" required></textarea>
+                <div class="valid-feedback">Looks Good</div>
+            </div>
+            <button class="btn btn-success">Submit comment</button>
+        </form>
+
+        <form action="/posts/<%= post._id %>?_method=DELETE" method="post">
+            <button class="btn btn-danger">Delete</button>
+        </form>
+
+        <% for (let comment of post.comments) { %>
+            <div class="mb-3">
+                <p>
+                    <%= comment.body %> by: 
+                    <% if (comment.author) { %>
+                        <%= comment.author.username || comment.author.email %>
+                    <% } else { %>
+                        [Deleted User]
+                    <% } %>
+                </p>
+                
+                <form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </div>
         <% } %>
     </div>
-    <a href="/posts/<%= post._id %>/edit">Edit</a>
-
-    <h2>Leave a comment</h2>
-    <form action="/posts/<%= post._id %>/comments" method="post" class="validated-form" novalidate>
-        <div class="mb-3">
-            <label for="body" class="form-label" >Comment</label>
-            <textarea class="form-control"  name="comment[body]" id="body" cols="10" rows="3" required ></textarea>
-            <div class="valid-feedback">Looks Good</div>
-        </div>
-        <button class="btn btn-success" >Submit comment</button>
-    </form>
-
-
-    <form action="/posts/<%= post._id %>?_method=DELETE" method="post">
-        <button class="btn btn-danger">delete</button>
-    </form>
-
-    <% for (let comment of post.comments) { %>
-        <div class="mb-3">
-            <p><%= comment.body %> by: 
-                <% if (comment.author) { %>
-                    <%= comment.author.username || comment.author.email %>
-                <% } else { %>
-                    [Deleted User] 
-                <% } %>
-            </p>
-            
-            <form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
-                <button class="btn btn-sm btn-danger">Delete</button>
-            </form>
-        </div>
-    <% } %>
-        </div>
+</div>

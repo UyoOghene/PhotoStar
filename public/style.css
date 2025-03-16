@@ -1,0 +1,31 @@
+.box {
+    max-width: 40em; /* Limits the box width */
+    margin: 0 auto;   /* Centers the box */
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 15px;
+    background-color: #f3f3f3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-inner img {
+    max-height: 300px; /* Reduces the image height */
+    border-radius: 8px; 
+    margin: 5px;
+}
+
+.carousel {
+    max-width: 100%;   /* Ensures the carousel stays within the box */
+    margin: 0 auto;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 30px;  /* Reduce the size */
+    height: 30px; /* Reduce the size */
+    background-color: black; /* Change arrow color to black */
+    border-radius: 50%; /* Optional: Circular shape for arrows */
+}
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    opacity: 0.8; /* Slight fade effect on hover */
+}
