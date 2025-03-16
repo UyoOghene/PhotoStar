@@ -4,6 +4,10 @@ const User = require('./models/user')
 const passport = require('passport');
 const { commentSchema, postSchema } = require('./schemas.js');  // ✅ Import commentSchema properly
 const Joi = require('joi');
+const multer = require('multer');
+const { storage } = require('./cloudinary'); // Assuming Cloudinary config is separate
+const upload = multer({ storage });
+
 
 
 const ExpressError = require('./utilities/ExpressError.js');

@@ -9,6 +9,7 @@ const catchAsync = require("../utilities/catchAsync");
 const ExpressError = require('../utilities/ExpressError');
 const { isLoggedIn, isAuthor, isCommentAuthor, validatePost, validateComment } = require("../middleware");
 const multer = require('multer');
+
 const { storage } = require('../cloudinary/index');
 const upload = multer({ storage});
 
@@ -19,20 +20,15 @@ router.get("/", catchAsync(async (req, res) => {
     res.render("posts/index", { posts });
 }));
 
-// Create a new post
-router.post("/", isLoggedIn, upload.array('image'), validatePost, catchAsync(async (req, res) => {
-    const { imageUrl, caption } = req.body.post;
-    
-    // Create a new post object
-    const newPost = new Post({ imageUrl, caption, author: req.user._id });
+router.post("/", isLoggedIn, upload.array('image'), (req, res, next) => {
+    req.body.post.image = req.files.map(f => f.path); // ✅ Add images to `req.body.post.image`
+    next();
+}, validatePost, catchAsync(async (req, res) => {
+    const { caption } = req.body.post;
 
-    // Assign uploaded image data
+    const newPost = new Post({ caption, author: req.user._id });
+
     newPost.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-
-    req.files.forEach(file => {
-        console.log('Uploaded Image URL:', file.path);
-        console.log('Uploaded Image file:', file.filename);
-    });
 
     await newPost.save();
     req.flash('success', 'Created a new post!');
@@ -90,9 +86,17 @@ router.post('/:id/comments', isLoggedIn, validateComment, catchAsync(async (req,
 
 
 // Update a post
-router.put('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, upload.single('image'), catchAsync(async (req, res) => {
     const { id } = req.params;
     const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
+
+    // If there's a new uploaded image, update the image field
+    if (req.file) {
+        post.images = [{ url: req.file.path, filename: req.file.filename }];
+    }
+
+    await post.save();
+
     req.flash('success', 'Updated post!');
     res.redirect(`/posts/${post._id}`);
 }));

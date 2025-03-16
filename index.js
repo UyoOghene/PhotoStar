@@ -22,6 +22,9 @@ const User = require('./models/user');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const Joi = require('joi');
+const multer = require('multer');
+const { storage } = require('./cloudinary'); // Assuming Cloudinary config is separate
+const upload = multer({ storage });
 
 
 

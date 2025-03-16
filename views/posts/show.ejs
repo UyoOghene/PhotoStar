@@ -37,7 +37,6 @@
                     [Deleted User] 
                 <% } %>
             </p>
-            <li class="list-group-item">Submitted by <%= post.author.username %></li>
             
             <form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
                 <button class="btn btn-sm btn-danger">Delete</button>

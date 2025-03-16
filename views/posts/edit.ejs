@@ -2,10 +2,11 @@
 
     <div class="container">
     <h1>Edit post</h1>
-    <form action="/posts/<%= post._id %>?_method=PUT" method="POST">
+    <form action="/posts/<%= post._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
         <div>
-            <label for="imageUrl">image</label>
-            <input type="text" id="imageUrl" name="post[imageUrl]" value="<%= post.imageUrl %>">
+            <label for="image">Upload New Image</label>
+            <input type="file" id="image" name="image"> <!-- File input for uploads -->
+            
         </div>
         <div>
             <label for="caption">Caption</label>
