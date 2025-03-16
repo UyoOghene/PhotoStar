@@ -21,6 +21,8 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const Joi = require('joi');
+
 
 
 require("dotenv").config();

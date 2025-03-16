@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require("../models/post");
 const Comment = require('../models/comment');
 const User = require('../models/user')
+const Joi = require('joi');
 
 const catchAsync = require("../utilities/catchAsync");
 const ExpressError = require('../utilities/ExpressError');
@@ -99,9 +100,9 @@ router.put('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
 
 // Delete a comment
 router.delete('/:id/comments/:commentId', isLoggedIn, isCommentAuthor, catchAsync(async (req, res) => {
-    const { id, commentid } = req.params;
-    await Post.findByIdAndUpdate(id, { $pull: { comments: commentId } });
-    await Comment.findByIdAndDelete(commentid);
+    const { id, commentId } = req.params;  // ✅ Fixed typo: 'commentId'
+    await Post.findByIdAndUpdate(id, { $pull: { comments: commentId } }); 
+    await Comment.findByIdAndDelete(commentId);  // ✅ Fixed typo here as well
     req.flash('success', 'Deleted comment');
     res.redirect(`/posts/${id}`);
 }));

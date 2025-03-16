@@ -1,7 +1,10 @@
-const postSchema = require('./models/post.js')
-const commentSchema = require('./models/comment.js')
+const Post = require('./models/post');        // ✅ Correct - Mongoose Post model
+const Comment = require('./models/comment');  // ✅ Correct - Mongoose Comment model
 const User = require('./models/user')
 const passport = require('passport');
+const { commentSchema, postSchema } = require('./schemas.js');  // ✅ Import commentSchema properly
+const Joi = require('joi');
+
 
 const ExpressError = require('./utilities/ExpressError.js');
 
