@@ -8,9 +8,13 @@
 <ul>
     <% for (let post of posts) { %>
         <li>
-            <img src="<%= post.imageUrl %>" alt="Post Image" style="height: 50px; width: 50px;">
+            <% if (post.images && post.images.length > 0) { %>
+                <img src="<%= post.images[0].url %>" alt="Post Image" style="height: 50px; width: 50px;">
+            <% } else { %>
+                <p>No Image Available</p>
+            <% } %>
             <p><a href="/posts/<%= post._id %>"><%= post.caption %></a></p>
         </li>
     <% } %>
-</ul>
+    </ul>
 </div>
