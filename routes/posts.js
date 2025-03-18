@@ -4,6 +4,7 @@ const Post = require("../models/post");
 const Comment = require('../models/comment');
 const User = require('../models/user')
 const Joi = require('joi');
+const { cloudinary } = require('../cloudinary/index'); 
 
 const catchAsync = require("../utilities/catchAsync");
 const ExpressError = require('../utilities/ExpressError');
@@ -85,22 +86,31 @@ router.post('/:id/comments', isLoggedIn, validateComment, catchAsync(async (req,
 }));
 
 
-// Update a post
-router.put('/:id', isLoggedIn, isAuthor, upload.single('image'), catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, upload.array('images'), catchAsync(async (req, res) => {
     const { id } = req.params;
-    const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
+    const post = await Post.findById(id);
 
-    // If there's a new uploaded image, update the image field
-    if (req.file) {
-        post.images = [{ url: req.file.path, filename: req.file.filename }];
+    // Delete old images ONLY IF new images are uploaded
+    if (req.files && req.files.length > 0) {
+        if (post.images && post.images.length > 0) {
+            for (let img of post.images) {
+                await cloudinary.uploader.destroy(img.filename);  // Deletes from Cloudinary
+            }
+        }
+
+        // Add new images
+        const imgs = req.files.map(file => ({ url: file.path, filename: file.filename }));
+        post.images = imgs;
     }
+
+    // Update caption (or other post data)
+    post.caption = req.body.post.caption;
 
     await post.save();
 
     req.flash('success', 'Updated post!');
     res.redirect(`/posts/${post._id}`);
 }));
-
 
 // Delete a comment
 router.delete('/:id/comments/:commentId', isLoggedIn, isCommentAuthor, catchAsync(async (req, res) => {

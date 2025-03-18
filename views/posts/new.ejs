@@ -1,27 +1,74 @@
-<% layout('layouts/boilerplate') -%>
-<div class="container">
-<h1>New post</h1>
-<form action="/posts" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
-    <!-- <div class="mb-3">
-        <label for="imageUrl" class="form-label">Image</label>
-        <input type="text" class="form-control" id="imageUrl" name="post[imageUrl]" required>
-        <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Please provide an image URL.</div>
-    </div> -->
-    <div class="mb-3">
-        <label for="image" class="form-label">Image</label>
-        <input type="file" class="form-control" name="image" multiple required>
-    </div>
-    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoStar - New Post</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Create a New Post</h1>
+        <form action="/posts" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Images</label>
+                <input 
+                    type="file" 
+                    class="form-control" 
+                    id="image" 
+                    name="image" 
+                    multiple 
+                    required
+                >
+                <div id="file-count" class="form-text text-muted mt-2">No files selected</div>
+                <div class="invalid-feedback">Please upload at least one image.</div>
+            </div>
 
-    <div class="mb-3">
-        <label for="caption" class="form-label">Caption</label>
-        <input type="text" class="form-control" id="caption" name="post[caption]" required>
-        <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Please provide a caption.</div>
+            <div class="mb-3">
+                <label for="caption" class="form-label">Caption</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="caption" 
+                    name="post[caption]" 
+                    required
+                >
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please provide a caption.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-20">Submit Post</button>
+        </form>
     </div>
 
-    <button class="btn btn-primary" type="submit">Add Post</button>
-</form>
-</div>
-<script src="/validateForms.js"></script>
+    <script>
+        // Show selected file count
+        const imageInput = document.getElementById('image');
+        const fileCount = document.getElementById('file-count');
+
+        imageInput.addEventListener('change', function () {
+            const count = imageInput.files.length;
+            fileCount.textContent = count > 0 
+                ? `${count} file(s) selected` 
+                : 'No files selected';
+        });
+
+        // Bootstrap form validation
+        (function () {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

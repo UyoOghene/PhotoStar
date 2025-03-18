@@ -4,9 +4,8 @@
     <h1>Edit post</h1>
     <form action="/posts/<%= post._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
         <div>
-            <label for="image">Upload New Image</label>
-            <input type="file" id="image" name="image"> <!-- File input for uploads -->
-            
+            <label for="image">Upload New Image(s)</label>
+            <input type="file" id="image" name="images" multiple> 
         </div>
         <div>
             <label for="caption">Caption</label>
@@ -14,6 +13,6 @@
         </div>
         <button>Submit update</button>
     </form>
-    <a href="/posts/<%= post._id  %>">Back to Post</a>
+    <a href="/posts/<%= post._id %>">Back to Post</a>
 
     </div>
