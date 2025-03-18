@@ -9,14 +9,13 @@
         <% if (currentUser) { %>
             <%= currentUser.email %>
         <% } else { %>
-            Guest
+           Guest User
         <% } %>
     </div>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="/posts">Home</a>
-          <a class="nav-link" href="/posts/new">New post</a>
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link active" aria-current="page" href="/posts"> <img class="icon" src="/images/home.jpeg" alt=""></a>
+          <a class="nav-link" href="/posts/new"><img src="/images/add2.png" id="addicon" class="icon" alt=""></a>
           <div class="navbar-nav ml-auto">
             <% if(!currentUser) {%>
             <a class="nav-link" href="/login">Login</a>

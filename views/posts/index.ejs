@@ -1,20 +1,22 @@
-<% layout('layouts/boilerplate.ejs') -%>
-<div class="container">
+<% layout('layouts/newboilerplate') -%>
 
+<div class="home-container">
 <h1>All posts</h1>
-<div>
-    <a href="/posts/new">Add post</a>
+<div id="addiv">
+    <a href="/posts/new"><img src="/images/add2.png" id="addicon" class="icon" alt="">Add new post</a>  
 </div>
-<ul>
+
     <% for (let post of posts) { %>
-        <li>
+        <div class="homepost-box">
+        
             <% if (post.images && post.images.length > 0) { %>
-                <img src="<%= post.images[0].url %>" alt="Post Image" style="height: 50px; width: 50px;">
+                <img src="<%= post.images[0].url %>" alt="Post Image" class="homepostimg">
             <% } else { %>
                 <p>No Image Available</p>
             <% } %>
             <p><a href="/posts/<%= post._id %>"><%= post.caption %></a></p>
-        </li>
+            <p> <%= post.author.username %></p>
+        </div>
     <% } %>
-    </ul>
+        
 </div>

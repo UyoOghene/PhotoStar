@@ -1,11 +1,52 @@
-.box {
-    max-width: 40em; /* Limits the box width */
-    margin: 0 auto;   /* Centers the box */
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+   
+}
+/* .box {
+    max-width: 40em; 
+    margin: 0 auto;   
     border: 2px solid #ddd;
     border-radius: 12px;
     padding: 15px;
     background-color: #f3f3f3;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+} */
+.home-container{
+    display: flex;
+    border: 2px solid black;
+    width: 80vw;
+  
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 10px;  
+    padding: 5px; 
+
+}
+.homepost-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 2px solid palevioletred;
+    border-radius: 20px;
+    width: 20em;
+    margin: 10px;
+    /* height: 20em; */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+}
+.homepostimg{
+    width: 5em;
+    height: auto;
+ 
+}
+.icon{
+    width: 2em;
+    height: auto;
 }
 
 .carousel-inner img {

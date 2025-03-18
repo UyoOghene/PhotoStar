@@ -17,7 +17,7 @@ const upload = multer({ storage});
 
 // Show all posts
 router.get("/", catchAsync(async (req, res) => {
-    const posts = await Post.find({});
+    const posts = await Post.find({}).populate('author');
     res.render("posts/index", { posts });
 }));
 
@@ -26,7 +26,7 @@ router.post("/", isLoggedIn, upload.array('image'), (req, res, next) => {
     next();
 }, validatePost, catchAsync(async (req, res) => {
     const { caption } = req.body.post;
-
+        // const {author}= req.user._id;
     const newPost = new Post({ caption, author: req.user._id });
 
     newPost.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
@@ -36,10 +36,6 @@ router.post("/", isLoggedIn, upload.array('image'), (req, res, next) => {
     res.redirect("/posts");
 }));
 
-// router.post("/", upload.array('image'), (req, res) => {
-//     console.log(req.body, req.files); // Confirm what data is received
-//     res.send('worked');
-// });
 
 // Show form to create a new post
 router.get('/new', isLoggedIn, (req, res) => {
