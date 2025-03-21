@@ -67,7 +67,7 @@ router.get('/:id', async (req, res) => {
         return res.redirect('/posts');
     }
 
-    res.render('posts/show', { post });
+    res.render('posts/show', { post, currentUser: req.user });
 });
 // Add a comment to a post
 router.post('/:id/comments', isLoggedIn, validateComment, catchAsync(async (req, res) => {
@@ -116,6 +116,26 @@ router.delete('/:id/comments/:commentId', isLoggedIn, isCommentAuthor, catchAsyn
     req.flash('success', 'Deleted comment');
     res.redirect(`/posts/${id}`);
 }));
+// router.post('/:id/like', isLoggedIn, async (req, res) => {
+//     const { id } = req.params;
+//     const post = await Post.findById(id);
+
+//     if (!post) {
+//         req.flash('error', 'Post not found.');
+//         return res.redirect('/posts');
+//     }
+
+//     const likeIndex = post.likes.indexOf(req.user._id);
+//     if (likeIndex === -1) {
+//         post.likes.push(req.user._id);
+//     } else {
+//         post.likes.splice(likeIndex, 1);
+//     }
+
+//     await post.save();
+//     res.redirect(`/posts/${id}`);
+// });
+
 router.post('/:id/like', isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const post = await Post.findById(id);
@@ -126,16 +146,24 @@ router.post('/:id/like', isLoggedIn, async (req, res) => {
     }
 
     const likeIndex = post.likes.indexOf(req.user._id);
+    let liked = false;
+
     if (likeIndex === -1) {
         post.likes.push(req.user._id);
+        liked = true;
     } else {
         post.likes.splice(likeIndex, 1);
     }
 
     await post.save();
+
+    // Send JSON data for AJAX functionality or redirect for traditional form
+    if (req.headers['accept'].includes('application/json')) {
+        return res.json({ likesCount: post.likes.length, liked });
+    }
+
     res.redirect(`/posts/${id}`);
 });
-
 
 // Delete a post
 router.delete("/:id", isLoggedIn, isAuthor, catchAsync(async (req, res) => {

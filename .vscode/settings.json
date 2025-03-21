@@ -1,0 +1,4 @@
+{
+    "prettier.enableDebugLogs": true,
+    "workbench.commandPalette.experimental.suggestCommands": true
+}

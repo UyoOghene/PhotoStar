@@ -39,11 +39,22 @@
                 </button>
             <% } %>
         </div>
-        <form action="/posts/<%= post._id %>/like" method="POST" class="d-inline">
+
+ 
+        <!-- <form action="/posts/<%= post._id %>/like" method="POST" class="d-inline">
             <button class="btn btn-outline-primary">
-                ❤️ Like(s) <%= post.likes.length %>
+                <img id="heartimg" src="/images/heart.png" alt="">
+            </button><span id="likecount"> <%= post.likes.length %> Likes</span>
+        </form> -->
+        <form action="/posts/<%= post._id %>/like" method="POST" class="d-inline">
+            <button id="likebtn" class="btn btn-outline-primary">
+                <img id="heartimg" 
+                     src="<%= post.likes.includes(currentUser._id) ? '/images/heart.png' : '/images/emptyheart.jpg' %>" 
+                     alt="heart">
             </button>
+            <span id="likecount"><%= post.likes.length %> Likes</span>
         </form>
+        
         
 
         <a href="/posts/<%= post._id %>/edit">Edit</a>
@@ -80,3 +91,4 @@
         <% } %>
     </div>
 </div>
+

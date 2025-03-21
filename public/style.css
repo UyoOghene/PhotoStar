@@ -3,7 +3,8 @@ body{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-   
+    background-color: #4464AD ;
+
 }
 /* .box {
     max-width: 40em; 
@@ -15,32 +16,36 @@ body{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 } */
 .home-container{
+    background-color: #4464AD ;
+
     display: flex;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     width: 80vw;
   
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     flex-direction: column;
     margin: 10px;  
     padding: 5px; 
 
 }
 .homepost-box{
+    background-color: #A4B0F5;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 2px solid palevioletred;
+    border: 0px;
     border-radius: 20px;
-    width: 20em;
+    width: 50%;
+    height: auto;
     margin: 10px;
     /* height: 20em; */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
 
 }
 .homepostimg{
-    width: 5em;
+    width: 100%;
     height: auto;
  
 }
@@ -69,4 +74,16 @@ body{
 .carousel-control-prev-icon:hover,
 .carousel-control-next-icon:hover {
     opacity: 0.8; /* Slight fade effect on hover */
+}
+#likebtn{
+    background-color: white;
+}
+#heartimg {
+    transition: transform 0.2s ease;
+    width: 3em;
+    height: auto;
+}
+
+#heartimg:hover {
+    transform: scale(1.5);
 }
