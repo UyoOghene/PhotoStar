@@ -1,8 +1,9 @@
 <% layout('layouts/boilerplate') -%>
 
 <div class="container mb-3">
-    <p> <%= post.author.username %> posted on <%= moment(post.createdAt).format('MMMM Do YYYY, h:mm a') %></p>
     <a href="/posts">Back to all posts</a>
+
+    <p> <%= post.author.username %> posted on <%= moment(post.createdAt).format('MMMM Do YYYY, h:mm a') %></p>
     
 
     <div class="box">
@@ -11,7 +12,7 @@
             <div class="carousel-inner">
                 <% post.images.forEach((img, i) => { %>
                     <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
-                        <img src="<%= img.url %>" alt="Post Image">
+                        <img id="postimg" src="<%= img.url %>" alt="Post Image">
                        
                     </div>
                 <% }) %>
@@ -25,7 +26,7 @@
         </div>
          
         <form action="/posts/<%= post._id %>/like" method="POST" class="d-inline">
-            <button id="likebtn" class="btn btn-outline-primary">
+            <button id="likebtn" >
                 <img id="heartimg" 
                 src="<%= post.likes.includes(currentUser && currentUser._id) ? '/images/heart.png' : '/images/emptyheart.jpg' %>" 
                 alt="heart">
@@ -34,37 +35,40 @@
         </form>
         
         
+        <div id="editndel">
+        <span>Edit<a href="/posts/<%= post._id %>/edit">  <img id="editimg" src="/images/edit2.png" alt=""> </a></span>
+        <span><form action="/posts/<%= post._id %>?_method=DELETE" method="post">
+            <button id="delbtnbtn" > <img id="delbtn" src="/images/delete.png" alt=""> Delete </button>
+        </form></span>
+    </div>
 
-        <a href="/posts/<%= post._id %>/edit">Edit</a>
 
-        <h2>Leave a comment</h2>
         <form action="/posts/<%= post._id %>/comments" method="post" class="validated-form" novalidate>
             <div class="mb-3">
-                <label for="body" class="form-label">Comment</label>
+                <label for="body" class="form-label">Add a Comment</label>
                 <textarea class="form-control" name="comment[body]" id="body" cols="10" rows="3" required></textarea>
                 <div class="valid-feedback">Looks Good</div>
             </div>
             <button class="btn btn-success">Submit comment</button>
         </form>
 
-        <form action="/posts/<%= post._id %>?_method=DELETE" method="post">
-            <button class="btn btn-danger">Delete</button>
-        </form>
 
         <% for (let comment of post.comments) { %>
-            <div class="mb-3">
+            <div class="mb-3" id="comment">
                 <p>
+                    
                     <%= comment.body %> by: 
                     <% if (comment.author) { %>
-                        <%= comment.author.username || comment.author.email %>
+                    <%= comment.author.username || comment.author.email %>                     <span><form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
+                            <button class="icon"> <img class="icon"  src="/images/icons8-delete-100.png" alt=""> </button>
+                        </form></span>
+    
                     <% } else { %>
                         [Deleted User]
                     <% } %>
+    
                 </p>
                 
-                <form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
-                    <button class="btn btn-sm btn-danger">Delete</button>
-                </form>
             </div>
         <% } %>
     </div>
