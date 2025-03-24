@@ -36,7 +36,7 @@ router.post("/", isLoggedIn, upload.array('image'), (req, res, next) => {
 
     await newPost.save();
     req.flash('success', 'Created a new post!');
-    res.redirect("/posts");
+    res.redirect("/posts",{moment,post,author});
 }));
 
 
@@ -67,10 +67,10 @@ router.get('/:id', async (req, res) => {
 
     if (!post) {
         req.flash('error', 'Post not found!');
-        return res.redirect('/posts');
+        return res.redirect('/posts',);
     }
 
-    res.render('posts/show', { post, currentUser: req.user });
+    res.render('posts/show', { post, currentUser: req.user, moment });
 });
 // Add a comment to a post
 router.post('/:id/comments', isLoggedIn, validateComment, catchAsync(async (req, res) => {

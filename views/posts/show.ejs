@@ -1,10 +1,12 @@
 <% layout('layouts/boilerplate') -%>
 
 <div class="container mb-3">
-    <h1>View Post</h1>
+    <p> <%= post.author.username %> posted on <%= moment(post.createdAt).format('MMMM Do YYYY, h:mm a') %></p>
     <a href="/posts">Back to all posts</a>
+    
 
     <div class="box">
+
         <div class="carousel">
             <div class="carousel-inner">
                 <% post.images.forEach((img, i) => { %>
