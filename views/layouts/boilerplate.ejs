@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,15 +17,12 @@
             crossorigin="anonymous"></script>
 </head>
 
-<body class="d-flex flex-column vh-100">
+<body class="d-flex flex-column min-vh-100 ">
   
   <%- include('../partials/navbar') %>
   <h1 >Photostar - Capture Your Moments <span ><img class="icon" src="/images/photostarlogo.png" alt=""></span></h1>
+  <%- body %>
 
-  <main class="container mt-5" role="main">
-    <%- include('../partials/flash') %>
-    <%- body %>
-  </main> 
 
   <%- include('../partials/footer') %>  
 

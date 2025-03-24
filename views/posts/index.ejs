@@ -1,4 +1,4 @@
-<% layout('layouts/newboilerplate') -%>
+<% layout('layouts/boilerplate') -%>
 
 <div class="home-container">
 <h1>All posts</h1>
@@ -14,8 +14,9 @@
             <% } else { %>
                 <p>No Image Available</p>
             <% } %>
-            <p><a href="/posts/<%= post._id %>"><%= post.caption %></a></p>
-            <p> <%= post.author.username %></p>
+            <p><%= post.caption %></p>
+            <p> <%= post.author.username %> posted on <%= moment(post.createdAt).format('MMMM Do YYYY, h:mm a') %></p>
+            <a href="/posts/<%= post._id %>">View Post</a>
         </div>
     <% } %>
         

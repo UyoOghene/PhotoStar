@@ -13,13 +13,16 @@ const multer = require('multer');
 
 const { storage } = require('../cloudinary/index');
 const upload = multer({ storage});
+const moment = require('moment');
 
 
 // Show all posts
+
 router.get("/", catchAsync(async (req, res) => {
     const posts = await Post.find({}).populate('author');
-    res.render("posts/index", { posts });
+    res.render("posts/index", { posts, moment });
 }));
+
 
 router.post("/", isLoggedIn, upload.array('image'), (req, res, next) => {
     req.body.post.image = req.files.map(f => f.path); // ✅ Add images to `req.body.post.image`
@@ -110,12 +113,13 @@ router.put('/:id', isLoggedIn, isAuthor, upload.array('images'), catchAsync(asyn
 
 // Delete a comment
 router.delete('/:id/comments/:commentId', isLoggedIn, isCommentAuthor, catchAsync(async (req, res) => {
-    const { id, commentId } = req.params;  // ✅ Fixed typo: 'commentId'
+    const { id, commentId } = req.params;
     await Post.findByIdAndUpdate(id, { $pull: { comments: commentId } }); 
-    await Comment.findByIdAndDelete(commentId);  // ✅ Fixed typo here as well
-    req.flash('success', 'Deleted comment');
+    await Comment.findByIdAndDelete(commentId);  
+    // req.flash('success', 'Deleted comment');
     res.redirect(`/posts/${id}`);
 }));
+
 // router.post('/:id/like', isLoggedIn, async (req, res) => {
 //     const { id } = req.params;
 //     const post = await Post.findById(id);
