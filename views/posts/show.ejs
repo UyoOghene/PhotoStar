@@ -60,7 +60,7 @@
                     <%= comment.body %> by: 
                     <% if (comment.author) { %>
                     <%= comment.author.username || comment.author.email %>                     <span><form action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
-                            <button class="icon"> <img class="icon"  src="/images/icons8-delete-100.png" alt=""> </button>
+                            <button class="icon"> <img class="icon"  src="/images/icons8-delete-chat-48.png" alt=""> </button>
                         </form></span>
     
                     <% } else { %>

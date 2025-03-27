@@ -36,7 +36,9 @@ router.post("/", isLoggedIn, upload.array('image'), (req, res, next) => {
 
     await newPost.save();
     req.flash('success', 'Created a new post!');
-    res.redirect("/posts",{moment,post,author});
+    // res.redirect("/posts",{moment,post,author});
+    res.redirect("/posts");
+
 }));
 
 

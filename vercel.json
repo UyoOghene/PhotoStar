@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "index.js"
+      }
+    ],
+    "env": {
+      "MONGO_URI": "mongodb+srv://uyooghene01:8DpkF4c6ZQwLLnLN@cluster0.cjvxacf.mongodb.net/sample_mflix",
+      "CLOUDINARY_CLOUD_NAME": "dk0e6pgpj",
+      "CLOUDINARY_API_KEY": "666857247559518",
+      "CLOUDINARY_API_SECRET": "a5gG0qf_EYQ5Bkz0Ltjy2-Qd6rc",
+      "SECRET": "needasecret"
+    }
+  }
+  

@@ -28,15 +28,22 @@ const upload = multer({ storage });
 
 
 
-require("dotenv").config();
 
 const app = express();
-mongoose.connect('mongodb://localhost:27017/photo-star');
+const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/photo-star';
+
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB Connected Successfully'))
+.catch((err) => console.error('MongoDB Connection Error:', err));
+console.log('Mongo URI:', mongoURI);
 
 const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
-    console.log("Database connected");
+    console.log("MongoDB database connected");
 });
 
 // App Configuration
@@ -75,6 +82,7 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     next();
 });
+app.locals.moment = require('moment');
 
 // Routes
 const postRoutes = require("./routes/posts");
@@ -86,8 +94,10 @@ app.use("/", userRoutes);
 // app.use('/posts/:id/comments', commentRoutes);
 
 // Home Route
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/', async(req, res) => {
+    const posts = await Post.find({}); 
+        res.render('posts/index', { posts });
+    res.render('posts/index');
 });
 
 // 404 Error Handler
@@ -102,6 +112,11 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 });
 
-app.listen(3000, () => {
-    console.log('Serving on port 3000');
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`);
 });
+
+// app.listen(3000, () => {
+//     console.log('Serving on port 3000');
+// });
